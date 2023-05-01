@@ -10,10 +10,13 @@ with socket.socket() as sock:
             while True:
                 try:
                     data = conn.recv(1024)
+                    conn.sendall("Ok".encode("utf-8"))
+                    if not data:
+                        break
+                    print(data.decode("utf-8"))
                 except socket.timeout:
                     print("close connection by timeout")
                     break
-
-                if not data:
+                except socket.error as ex:
+                    print("close connection by err: ", ex)
                     break
-                print(data.decode("utf-8"))
